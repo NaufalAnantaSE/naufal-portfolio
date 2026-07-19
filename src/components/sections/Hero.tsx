@@ -1,8 +1,16 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { Suspense, useEffect, useState } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+  useMotionTemplate,
+} from "framer-motion";
 import { ArrowDown, MapPin } from "lucide-react";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { useRef } from "react";
@@ -11,7 +19,35 @@ const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
   ssr: false,
 });
 
-const roles = ["Backend Engineer", "AI Engineer", "Open Source Developer"];
+const roles = [
+  { label: "Backend Engineer", color: "text-violet-300" },
+  { label: "AI Engineer", color: "text-blue-300" },
+  { label: "Open Source Developer", color: "text-orange-300" },
+];
+
+function RoleRotator() {
+  const [index, setIndex] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setIndex((i) => (i + 1) % roles.length), 2600);
+    return () => clearInterval(id);
+  }, []);
+  return (
+    <span className="relative inline-flex h-[1.4em] min-w-[13ch] items-center justify-center overflow-hidden align-bottom">
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={index}
+          initial={{ y: "100%", opacity: 0, filter: "blur(6px)" }}
+          animate={{ y: 0, opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-100%", opacity: 0, filter: "blur(6px)" }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          className={`whitespace-nowrap font-semibold ${roles[index].color}`}
+        >
+          {roles[index].label}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 export function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -23,10 +59,28 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
 
+  // Mouse-reactive ambient glow behind the name
+  const mx = useMotionValue(0.5);
+  const my = useMotionValue(0.4);
+  const glowX = useSpring(mx, { stiffness: 60, damping: 20 });
+  const glowY = useSpring(my, { stiffness: 60, damping: 20 });
+  const glow = useMotionTemplate`radial-gradient(600px circle at ${useTransform(
+    glowX,
+    (v) => v * 100
+  )}% ${useTransform(glowY, (v) => v * 100)}%, rgba(139,92,246,0.13), transparent 70%)`;
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    const rect = ref.current?.getBoundingClientRect();
+    if (!rect) return;
+    mx.set((e.clientX - rect.left) / rect.width);
+    my.set((e.clientY - rect.top) / rect.height);
+  };
+
   return (
     <section
       ref={ref}
       id="top"
+      onMouseMove={onMouseMove}
       className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden"
     >
       {/* 3D scene behind text */}
@@ -35,6 +89,12 @@ export function Hero() {
           <HeroScene />
         </Suspense>
       </div>
+      {/* cursor-following ambient glow */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{ background: glow }}
+      />
 
       <motion.div
         style={{ y, opacity, scale }}
@@ -87,22 +147,9 @@ export function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.9, delay: 0.9 }}
-          className="mt-6 flex flex-wrap items-center justify-center gap-2 md:gap-3"
+          className="mt-6 text-lg md:text-xl"
         >
-          {roles.map((role, i) => (
-            <span
-              key={role}
-              className={`rounded-full px-4 py-1.5 text-xs font-medium md:text-sm ${
-                i === 0
-                  ? "bg-violet-600/20 text-violet-300 ring-1 ring-violet-500/40"
-                  : i === 1
-                    ? "bg-blue-600/20 text-blue-300 ring-1 ring-blue-500/40"
-                    : "bg-orange-600/20 text-orange-300 ring-1 ring-orange-500/40"
-              }`}
-            >
-              {role}
-            </span>
-          ))}
+          <RoleRotator />
         </motion.div>
 
         <motion.p

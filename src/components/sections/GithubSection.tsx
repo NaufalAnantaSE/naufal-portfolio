@@ -7,6 +7,13 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { socials, projects } from "@/lib/data";
 
+function seededRandom(seed: number) {
+  return () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+}
+
 const stats = [
   { icon: BookOpen, label: "Repositories", value: "60+" },
   { icon: Star, label: "Stars Earned", value: "120+" },
@@ -21,11 +28,7 @@ function ContributionGraph() {
   const cells = useMemo(() => {
     // deterministic pseudo-random pattern
     const out: number[] = [];
-    let seed = 42;
-    const rand = () => {
-      seed = (seed * 16807) % 2147483647;
-      return seed / 2147483647;
-    };
+    const rand = seededRandom(42);
     for (let i = 0; i < weeks * days; i++) {
       const r = rand();
       out.push(r > 0.75 ? 3 : r > 0.55 ? 2 : r > 0.35 ? 1 : 0);

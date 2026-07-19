@@ -5,6 +5,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
 
+function seededRandom(seed: number) {
+  return () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+}
+
 /* Docker whale-ish container stack */
 function DockerWhale({ position }: { position: [number, number, number] }) {
   return (
@@ -134,17 +141,16 @@ function PythonGem({ position }: { position: [number, number, number] }) {
 }
 
 function AiBrain({ position }: { position: [number, number, number] }) {
-  const nodes = useMemo(
-    () =>
-      Array.from({ length: 14 }, () => ({
-        pos: [
-          (Math.random() - 0.5) * 0.9,
-          (Math.random() - 0.5) * 0.9,
-          (Math.random() - 0.5) * 0.9,
-        ] as [number, number, number],
-      })),
-    []
-  );
+  const nodes = useMemo(() => {
+    const rand = seededRandom(7777);
+    return Array.from({ length: 14 }, () => ({
+      pos: [
+        (rand() - 0.5) * 0.9,
+        (rand() - 0.5) * 0.9,
+        (rand() - 0.5) * 0.9,
+      ] as [number, number, number],
+    }));
+  }, []);
   const group = useRef<THREE.Group>(null);
   useFrame((state) => {
     if (group.current)

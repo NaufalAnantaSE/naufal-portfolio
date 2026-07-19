@@ -5,15 +5,23 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
+function seededRandom(seed: number) {
+  return () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+}
+
 function StarField({ count = 2200 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
 
   const positions = useMemo(() => {
     const arr = new Float32Array(count * 3);
+    const rand = seededRandom(12345);
     for (let i = 0; i < count; i++) {
-      const r = 8 + Math.random() * 18;
-      const theta = Math.random() * Math.PI * 2;
-      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 8 + rand() * 18;
+      const theta = rand() * Math.PI * 2;
+      const phi = Math.acos(2 * rand() - 1);
       arr[i * 3] = r * Math.sin(phi) * Math.cos(theta);
       arr[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
       arr[i * 3 + 2] = r * Math.cos(phi);
@@ -44,11 +52,12 @@ function StarField({ count = 2200 }: { count?: number }) {
 function Dust({ count = 500 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const positions = useMemo(() => {
+    const rand = seededRandom(67890);
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 20;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 10;
+      arr[i * 3] = (rand() - 0.5) * 20;
+      arr[i * 3 + 1] = (rand() - 0.5) * 12;
+      arr[i * 3 + 2] = (rand() - 0.5) * 10;
     }
     return arr;
   }, [count]);

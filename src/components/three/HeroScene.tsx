@@ -5,6 +5,13 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, RoundedBox, Cylinder, Sphere, Line } from "@react-three/drei";
 import * as THREE from "three";
 
+function seededRandom(seed: number) {
+  return () => {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  };
+}
+
 /* ---------- Individual assets ---------- */
 
 function ServerRack({ position }: { position: [number, number, number] }) {
@@ -13,7 +20,7 @@ function ServerRack({ position }: { position: [number, number, number] }) {
       Array.from({ length: 8 }, (_, i) => ({
         y: -0.75 + i * 0.22,
         color: i % 3 === 0 ? "#fb923c" : i % 3 === 1 ? "#8b5cf6" : "#3b82f6",
-        speed: 1 + Math.random() * 3,
+        speed: 1 + seededRandom(i * 1337 + 42)() * 3,
       })),
     []
   );
@@ -137,11 +144,12 @@ function CloudShape({ position }: { position: [number, number, number] }) {
 function Particles({ count = 350 }: { count?: number }) {
   const ref = useRef<THREE.Points>(null);
   const positions = useMemo(() => {
+    const rand = seededRandom(9999);
     const arr = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      arr[i * 3] = (Math.random() - 0.5) * 14;
-      arr[i * 3 + 1] = (Math.random() - 0.5) * 8;
-      arr[i * 3 + 2] = (Math.random() - 0.5) * 6;
+      arr[i * 3] = (rand() - 0.5) * 14;
+      arr[i * 3 + 1] = (rand() - 0.5) * 8;
+      arr[i * 3 + 2] = (rand() - 0.5) * 6;
     }
     return arr;
   }, [count]);
