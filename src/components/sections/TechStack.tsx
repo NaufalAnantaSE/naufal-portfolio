@@ -3,6 +3,7 @@
 import dynamic from "next/dynamic";
 import { Suspense, useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
+import { SplitText } from "@/components/ui/SplitText";
 import { categories } from "@/lib/data";
 
 const TechSphereScene = dynamic(
@@ -21,9 +22,11 @@ export function TechStack() {
         <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
           Arsenal
         </span>
-        <h2 className="mt-3 text-4xl font-black uppercase tracking-tight md:text-6xl">
-          Tech <span className="text-gradient">Universe</span>
-        </h2>
+        <SplitText
+          as="h2"
+          text="Tech Universe"
+          className="mt-3 text-4xl font-black uppercase tracking-tight md:text-6xl"
+        />
         <p className="mx-auto mt-4 max-w-md text-neutral-400">
           Hover a sphere — every one is a technology I&apos;ve shipped with.
         </p>

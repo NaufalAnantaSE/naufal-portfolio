@@ -6,6 +6,8 @@ import { Github } from "@/components/ui/icons";
 import { projects } from "@/lib/data";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { Reveal } from "@/components/ui/Reveal";
+import { SplitText } from "@/components/ui/SplitText";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 function TiltPreview({ accent, id }: { accent: string; id: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -74,9 +76,11 @@ export function Projects() {
         <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
           Deep Dives
         </span>
-        <h2 className="mt-3 text-4xl font-black uppercase tracking-tight md:text-6xl">
-          Featured <span className="text-gradient">Projects</span>
-        </h2>
+        <SplitText
+          as="h2"
+          text="Featured Projects"
+          className="mt-3 text-4xl font-black uppercase tracking-tight md:text-6xl"
+        />
       </Reveal>
 
       <div className="space-y-10">
@@ -86,11 +90,9 @@ export function Projects() {
             className="sticky"
             style={{ top: `${96 + i * 28}px` }}
           >
-            <div
+            <SpotlightCard
               className="glass overflow-hidden rounded-3xl shadow-2xl"
-              style={{
-                transform: `scale(${1 - (projects.length - 1 - i) * 0.015})`,
-              }}
+              glowColor="rgba(139, 92, 246, 0.12)"
             >
               <div className={`h-1 w-full bg-gradient-to-r ${p.accent}`} />
               <div className="grid gap-10 p-8 md:grid-cols-2 md:p-12">
@@ -162,7 +164,7 @@ export function Projects() {
                   </div>
                 </div>
               </div>
-            </div>
+            </SpotlightCard>
           </div>
         ))}
       </div>

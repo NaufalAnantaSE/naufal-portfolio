@@ -3,6 +3,8 @@
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 import { Reveal } from "@/components/ui/Reveal";
+import { SplitText } from "@/components/ui/SplitText";
+import { SpotlightCard } from "@/components/ui/SpotlightCard";
 
 const AboutAssetsScene = dynamic(
   () => import("@/components/three/AboutAssetsScene"),
@@ -26,10 +28,11 @@ export function About() {
             <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
               About Me
             </span>
-            <h2 className="mt-3 text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-6xl">
-              Engineer of <br />
-              <span className="text-gradient">Invisible Things</span>
-            </h2>
+            <SplitText
+              as="h2"
+              text="Engineer of Invisible Things"
+              className="mt-3 text-4xl font-black uppercase leading-[0.95] tracking-tight md:text-6xl"
+            />
           </Reveal>
 
           <Reveal delay={0.15}>
@@ -68,12 +71,16 @@ export function About() {
                 { v: "3+", l: "Years Coding" },
                 { v: "∞", l: "Curiosity" },
               ].map((s) => (
-                <div key={s.l} className="glass rounded-2xl p-4 text-center">
+                <SpotlightCard
+                  key={s.l}
+                  className="glass rounded-2xl p-4 text-center"
+                  glowColor="rgba(139, 92, 246, 0.18)"
+                >
                   <div className="text-gradient-static text-3xl font-black">{s.v}</div>
                   <div className="mt-1 text-xs uppercase tracking-widest text-neutral-500">
                     {s.l}
                   </div>
-                </div>
+                </SpotlightCard>
               ))}
             </div>
           </Reveal>
