@@ -3,7 +3,6 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Magnetic } from "@/components/ui/Magnetic";
 import { socials } from "@/lib/data";
 
 const links = [
@@ -33,12 +32,12 @@ export function Navbar() {
     >
       <nav
         className={`flex w-full max-w-3xl items-center justify-between rounded-full px-6 py-3 transition-all duration-500 ${
-          scrolled ? "glass glow-violet" : "border border-transparent"
+          scrolled ? "bg-white/[0.06] backdrop-blur-2xl border border-white/10" : "border border-transparent"
         }`}
       >
         <a
           href="#top"
-          className="text-lg font-bold tracking-tight text-gradient-static"
+          className="text-lg font-bold tracking-tight text-white/80 hover:text-white transition-colors"
         >
           NA.
         </a>
@@ -55,18 +54,16 @@ export function Navbar() {
           ))}
         </ul>
         <div className="flex items-center gap-3">
-          <Magnetic strength={0.25}>
-            <a
-              href={socials.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-violet-600"
-            >
-              GitHub
-            </a>
-          </Magnetic>
+          <a
+            href={socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium transition-colors hover:bg-white/20"
+          >
+            GitHub
+          </a>
           <button
-            className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-violet-600 md:hidden"
+            className="rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 md:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
           >
@@ -81,7 +78,7 @@ export function Navbar() {
             initial={{ opacity: 0, y: -12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="glass absolute left-3 right-3 top-16 z-50 rounded-3xl p-5 shadow-2xl md:hidden"
+            className="absolute left-3 right-3 top-16 z-50 rounded-3xl bg-white/[0.06] backdrop-blur-2xl border border-white/10 p-5 shadow-2xl md:hidden"
           >
             <ul className="space-y-3 text-sm text-neutral-200">
               {links.map((l) => (
@@ -100,7 +97,7 @@ export function Navbar() {
               href={socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex w-full items-center justify-center rounded-full bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-600"
+              className="mt-4 flex w-full items-center justify-center rounded-full bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
             >
               GitHub
             </a>
