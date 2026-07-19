@@ -21,7 +21,7 @@ const traits = [
 
 export function About() {
   return (
-    <section id="about" className="relative mx-auto max-w-7xl px-6 py-32 md:px-16">
+    <section id="about" className="section-rule relative mx-auto max-w-7xl px-6 py-32 md:px-16">
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <div>
           <Reveal>

@@ -70,7 +70,7 @@ function ContributionGraph() {
 
 export function GithubSection() {
   return (
-    <section className="relative mx-auto max-w-7xl px-6 py-32 md:px-16">
+    <section className="section-rule relative mx-auto max-w-7xl px-6 py-32 md:px-16">
       <Reveal className="mb-12 flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
         <div>
           <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
@@ -87,7 +87,7 @@ export function GithubSection() {
             rel="noopener noreferrer"
             className="glass flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition-colors hover:border-violet-500/50"
           >
-            <Github className="h-4 w-4" /> @Naufall1
+            <Github className="h-4 w-4" /> @NaufalAnantaSE
           </a>
         </Magnetic>
       </Reveal>

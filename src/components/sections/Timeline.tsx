@@ -14,7 +14,7 @@ export function Timeline() {
   const lineHeight = useTransform(scrollYProgress, [0, 1], ["0%", "100%"]);
 
   return (
-    <section id="journey" className="relative mx-auto max-w-5xl px-6 py-32 md:px-16">
+    <section id="journey" className="section-rule relative mx-auto max-w-5xl px-6 py-32 md:px-16">
       <Reveal className="mb-20 text-center">
         <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
           The Journey

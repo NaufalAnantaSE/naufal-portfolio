@@ -64,7 +64,7 @@ export function Preloader() {
 
           {/* corner marks */}
           <span className="absolute left-6 top-6 text-[10px] uppercase tracking-[0.4em] text-neutral-700">
-            Portfolio © 2024
+            Portfolio © 2025
           </span>
           <span className="absolute bottom-6 right-6 text-[10px] uppercase tracking-[0.4em] text-neutral-700">
             Backend · AI · Cloud

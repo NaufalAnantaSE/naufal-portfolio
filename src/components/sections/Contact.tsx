@@ -14,8 +14,8 @@ const ContactOrbScene = dynamic(
 );
 
 const links = [
-  { icon: Mail, label: "Email", value: "naufalananta@example.com", href: socials.email },
-  { icon: Github, label: "GitHub", value: "@Naufall1", href: socials.github },
+  { icon: Mail, label: "Email", value: "Contact via GitHub", href: socials.email },
+  { icon: Github, label: "GitHub", value: "@NaufalAnantaSE", href: socials.github },
   { icon: Linkedin, label: "LinkedIn", value: "in/naufalananta", href: socials.linkedin },
   { icon: Instagram, label: "Instagram", value: "@naufalananta", href: socials.instagram },
 ];

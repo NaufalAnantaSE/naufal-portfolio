@@ -19,6 +19,7 @@ const TAG_MAP = {
 /**
  * Splits text into words and reveals them with a staggered
  * mask-slide animation when scrolled into view.
+ * Supports multiline via " | " delimiter.
  */
 export function SplitText({
   text,
@@ -33,47 +34,64 @@ export function SplitText({
   stagger?: number;
   as?: "span" | "h1" | "h2" | "h3" | "p";
 }) {
-  const words = text.split(" ");
-
-  const container: Variants = {
-    hidden: {},
-    visible: {
-      transition: { staggerChildren: stagger, delayChildren: delay },
-    },
-  };
-
-  const word: Variants = {
-    hidden: { y: "115%", rotate: 3 },
-    visible: {
-      y: 0,
-      rotate: 0,
-      transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-    },
-  };
-
+  const lines = text.split(" | ");
   const MotionTag = TAG_MAP[Tag];
 
   return (
     <MotionTag
       className={className}
-      variants={container}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}
       aria-label={text}
     >
-      {words.map((w, i) => (
-        <span
-          key={i}
-          aria-hidden
-          className="inline-block overflow-hidden pb-[0.08em] align-bottom"
-        >
-          <motion.span variants={word} className="inline-block will-change-transform">
-            {w}
-            {i < words.length - 1 ? " " : ""}
+      {lines.map((line, lineIdx) => {
+        const words = line.split(" ");
+        const lineDelay = delay + lineIdx * 0.18;
+
+        const container: Variants = {
+          hidden: {},
+          visible: {
+            transition: {
+              staggerChildren: stagger,
+              delayChildren: lineDelay,
+            },
+          },
+        };
+
+        const word: Variants = {
+          hidden: { y: "115%", rotate: 3 },
+          visible: {
+            y: 0,
+            rotate: 0,
+            transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+          },
+        };
+
+        return (
+          <motion.span
+            key={lineIdx}
+            variants={container}
+            className="block overflow-hidden pb-[0.08em] align-bottom last:pb-0"
+          >
+            {words.map((w, i) => (
+              <span
+                key={i}
+                aria-hidden
+                className="inline-block overflow-hidden pb-[0.08em] align-bottom"
+              >
+                <motion.span
+                  variants={word}
+                  className="inline-block will-change-transform"
+                >
+                  {w}
+                  {i < words.length - 1 ? "\u00A0" : ""}
+                </motion.span>
+              </span>
+            ))}
           </motion.span>
-        </span>
-      ))}
+        );
+      })}
     </MotionTag>
   );
 }

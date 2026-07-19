@@ -17,7 +17,7 @@ export function TechStack() {
   const [active, setActive] = useState("All");
 
   return (
-    <section id="stack" className="relative mx-auto max-w-7xl px-6 py-32 md:px-16">
+    <section id="stack" className="section-rule relative mx-auto max-w-7xl px-6 py-32 md:px-16">
       <Reveal className="text-center">
         <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
           Arsenal

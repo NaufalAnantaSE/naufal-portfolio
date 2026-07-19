@@ -71,7 +71,7 @@ function TiltPreview({ accent, id }: { accent: string; id: string }) {
 
 export function Projects() {
   return (
-    <section id="work" className="relative mx-auto max-w-7xl px-6 py-32 md:px-16">
+    <section id="work" className="section-rule relative mx-auto max-w-7xl px-6 py-32 md:px-16">
       <Reveal className="mb-16 text-center">
         <span className="text-xs font-medium uppercase tracking-[0.4em] text-violet-400">
           Deep Dives
@@ -87,8 +87,7 @@ export function Projects() {
         {projects.map((p, i) => (
           <div
             key={p.id}
-            className="sticky"
-            style={{ top: `${96 + i * 28}px` }}
+            className="relative"
           >
             <SpotlightCard
               className="glass overflow-hidden rounded-3xl shadow-2xl"

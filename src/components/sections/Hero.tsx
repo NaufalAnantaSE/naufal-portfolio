@@ -59,7 +59,6 @@ export function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
 
-  // Mouse-reactive ambient glow behind the name
   const mx = useMotionValue(0.5);
   const my = useMotionValue(0.4);
   const glowX = useSpring(mx, { stiffness: 60, damping: 20 });
@@ -83,13 +82,11 @@ export function Hero() {
       onMouseMove={onMouseMove}
       className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden"
     >
-      {/* 3D scene behind text */}
       <div className="absolute inset-0 z-0">
         <Suspense fallback={null}>
           <HeroScene />
         </Suspense>
       </div>
-      {/* cursor-following ambient glow */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-0 z-[1]"
@@ -143,6 +140,21 @@ export function Hero() {
           </motion.span>
         </div>
 
+        <div
+          aria-hidden
+          className="w-full overflow-hidden text-center leading-[0.75]"
+        >
+          <motion.span
+            initial={{ y: "110%", rotate: -3 }}
+            animate={{ y: 0, rotate: 0 }}
+            transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="hero-stroke block font-black uppercase tracking-tighter"
+            style={{ fontSize: "clamp(3.2rem, 13vw, 13rem)" }}
+          >
+            Ananta
+          </motion.span>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -192,7 +204,6 @@ export function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
       <motion.a
         href="#showcase"
         initial={{ opacity: 0 }}
@@ -210,7 +221,6 @@ export function Hero() {
         </motion.span>
       </motion.a>
 
-      {/* bottom fade */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#090909] to-transparent" />
     </section>
   );
