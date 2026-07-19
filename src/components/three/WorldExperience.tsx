@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Html, PerspectiveCamera, Text } from "@react-three/drei";
+import { Billboard, Html, PerspectiveCamera, Text } from "@react-three/drei";
 import * as THREE from "three";
 
 /* ---------- WebGL detection ---------- */
@@ -72,7 +72,7 @@ function Car({ position, rotation }: { position: React.MutableRefObject<THREE.Ve
     group.current.position.lerp(position.current, 1 - Math.pow(0.001, delta));
     group.current.rotation.y = THREE.MathUtils.lerp(group.current.rotation.y, rotation.current, 1 - Math.pow(0.001, delta));
     wheels.current.forEach((wheel) => {
-      if (wheel) wheel.rotation.x -= delta * 5;
+      if (wheel) wheel.rotation.y += delta * 5;
     });
   });
 
@@ -91,10 +91,12 @@ function Car({ position, rotation }: { position: React.MutableRefObject<THREE.Ve
         <meshStandardMaterial color="#13202b" roughness={0.12} metalness={0.6} />
       </mesh>
       {([[-0.78, 0.28, -0.75], [0.78, 0.28, -0.75], [-0.78, 0.28, 0.75], [0.78, 0.28, 0.75]] as [number, number, number][]).map((pos, index) => (
-        <mesh key={index} ref={(node) => { if (node) wheels.current[index] = node; }} position={pos} rotation={[Math.PI / 2, 0, 0]}>
-          <cylinderGeometry args={[0.28, 0.28, 0.16, 16]} />
-          <meshStandardMaterial color="#08090b" roughness={0.7} />
-        </mesh>
+        <group key={index} position={pos} rotation={[0, 0, Math.PI / 2]}>
+          <mesh ref={(node) => { if (node) wheels.current[index] = node; }}>
+            <cylinderGeometry args={[0.28, 0.28, 0.16, 16]} />
+            <meshStandardMaterial color="#08090b" roughness={0.7} />
+          </mesh>
+        </group>
       ))}
       <pointLight position={[0, 0.45, -1.3]} color="#ffb38a" intensity={3} distance={4} />
     </group>
@@ -112,9 +114,11 @@ function Landmark({ landmark }: { landmark: (typeof landmarks)[number] }) {
         <planeGeometry args={[2.9, 1.3]} />
         <meshBasicMaterial color={landmark.color} transparent opacity={0.12} />
       </mesh>
-      <Text position={[0, 1.22, -0.22]} fontSize={0.42} color={landmark.color} anchorX="center" anchorY="middle">
-        {landmark.label}
-      </Text>
+      <Billboard position={[0, 1.22, -0.22]} follow lockX={false} lockY={false} lockZ={false}>
+        <Text fontSize={0.42} color={landmark.color} anchorX="center" anchorY="middle">
+          {landmark.label}
+        </Text>
+      </Billboard>
       <Html position={[0, 0.6, -0.28]} center>
         <a href={landmark.href} className="pointer-events-auto block px-5 py-2 text-center text-[11px] font-bold uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-white">
           Enter
