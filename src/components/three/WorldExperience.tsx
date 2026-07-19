@@ -5,12 +5,28 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, PerspectiveCamera, Text } from "@react-three/drei";
 import * as THREE from "three";
 
+/* ---------- WebGL detection ---------- */
+function hasWebGL(): boolean {
+  if (typeof window === "undefined") return false;
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(
+      canvas.getContext("webgl2") || canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
+    );
+  } catch {
+    return false;
+  }
+}
+
+/* ---------- 3D World Data ---------- */
 const landmarks = [
   { label: "WORK", href: "#work", position: [-8, 0, -8] as [number, number, number], color: "#ff6b35" },
   { label: "ABOUT", href: "#about", position: [8, 0, -5] as [number, number, number], color: "#e8c547" },
   { label: "STACK", href: "#stack", position: [-7, 0, 8] as [number, number, number], color: "#38bdf8" },
   { label: "CONTACT", href: "#contact", position: [8, 0, 8] as [number, number, number], color: "#a78bfa" },
 ];
+
+/* ---------- 3D Components ---------- */
 
 function Ground() {
   const blocks = useMemo(() => {
@@ -66,7 +82,7 @@ function Car({ position, rotation }: { position: React.MutableRefObject<THREE.Ve
         <boxGeometry args={[1.5, 0.38, 2.45]} />
         <meshStandardMaterial color="#f25f3a" roughness={0.32} metalness={0.2} />
       </mesh>
-      <mesh position={[0, 0.8, 0.15]} rotation={[0, 0, 0]} castShadow>
+      <mesh position={[0, 0.8, 0.15]}>
         <boxGeometry args={[1.12, 0.38, 1.05]} />
         <meshStandardMaterial color="#f47c59" roughness={0.3} />
       </mesh>
@@ -75,7 +91,7 @@ function Car({ position, rotation }: { position: React.MutableRefObject<THREE.Ve
         <meshStandardMaterial color="#13202b" roughness={0.12} metalness={0.6} />
       </mesh>
       {([[-0.78, 0.28, -0.75], [0.78, 0.28, -0.75], [-0.78, 0.28, 0.75], [0.78, 0.28, 0.75]] as [number, number, number][]).map((pos, index) => (
-        <mesh key={index} ref={(node) => { if (node) wheels.current[index] = node; }} position={pos} rotation={[Math.PI / 2, 0, 0]} castShadow>
+        <mesh key={index} ref={(node) => { if (node) wheels.current[index] = node; }} position={pos} rotation={[Math.PI / 2, 0, 0]}>
           <cylinderGeometry args={[0.28, 0.28, 0.16, 16]} />
           <meshStandardMaterial color="#08090b" roughness={0.7} />
         </mesh>
@@ -99,7 +115,7 @@ function Landmark({ landmark }: { landmark: (typeof landmarks)[number] }) {
       <Text position={[0, 1.22, -0.22]} fontSize={0.42} color={landmark.color} anchorX="center" anchorY="middle">
         {landmark.label}
       </Text>
-      <Html position={[0, 1.15, -0.28]} center>
+      <Html position={[0, 0.6, -0.28]} center>
         <a href={landmark.href} className="pointer-events-auto block px-5 py-2 text-center text-[11px] font-bold uppercase tracking-[0.3em] text-white/70 transition-colors hover:text-white">
           Enter
         </a>
@@ -123,7 +139,6 @@ function World({ onSpeed }: { onSpeed: (speed: number) => void }) {
   const keys = useRef(new Set<string>());
   const camera = useThree((state) => state.camera);
   const target = useMemo(() => new THREE.Vector3(), []);
-  const [speed, setSpeed] = useState(0);
 
   useEffect(() => {
     const down = (event: KeyboardEvent) => keys.current.add(event.key.toLowerCase());
@@ -150,9 +165,7 @@ function World({ onSpeed }: { onSpeed: (speed: number) => void }) {
     carPosition.current.z += Math.cos(carRotation.current) * velocity;
     carPosition.current.x = THREE.MathUtils.clamp(carPosition.current.x, -17, 17);
     carPosition.current.z = THREE.MathUtils.clamp(carPosition.current.z, -17, 17);
-    const nextSpeed = moving ? Math.abs(velocity / delta) : 0;
-    setSpeed((current) => THREE.MathUtils.lerp(current, nextSpeed, 0.12));
-    onSpeed(nextSpeed);
+    onSpeed(moving ? Math.abs(velocity / delta) : 0);
 
     target.set(
       carPosition.current.x - Math.sin(carRotation.current) * 6,
@@ -186,7 +199,7 @@ function World({ onSpeed }: { onSpeed: (speed: number) => void }) {
             <span className="rounded border border-white/15 px-2 py-1">WASD</span><span>Drive to explore</span>
           </div>
           <div className="absolute bottom-5 right-5 text-right text-[10px] uppercase tracking-[0.25em] text-white/45 md:bottom-8 md:right-10">
-            <p>Speed {Math.round(speed * 10)} km/h</p><p className="mt-1">Find the signs</p>
+            <p>Find the signs</p>
           </div>
         </div>
       </Html>
@@ -194,17 +207,76 @@ function World({ onSpeed }: { onSpeed: (speed: number) => void }) {
   );
 }
 
-export function WorldExperience() {
+/* ---------- 3D Hero (when WebGL available) ---------- */
+function WorldHero() {
   const [speed, setSpeed] = useState(0);
   return (
-    <section id="top" className="relative h-svh min-h-[620px] w-full overflow-hidden bg-[#090a0d]">
-      <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true, powerPreference: "high-performance" }}>
+    <>
+      <Canvas shadows dpr={[1, 1.5]} gl={{ antialias: true, powerPreference: "high-performance" }} className="absolute inset-0">
         <PerspectiveCamera makeDefault position={[0, 4.2, 8]} fov={48} />
         <World onSpeed={setSpeed} />
       </Canvas>
       <div className="pointer-events-none absolute right-5 top-5 hidden text-right md:right-10 md:top-8 md:block">
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.35em] text-white/40"><span className={`h-2 w-2 rounded-full ${speed > 0 ? "bg-orange-400" : "bg-emerald-400"}`} />{speed > 0 ? "Exploring" : "World ready"}</div>
       </div>
+    </>
+  );
+}
+
+/* ---------- Static Fallback (when WebGL not available) ---------- */
+function StaticFallback() {
+  return (
+    <div className="absolute inset-0 flex flex-col justify-center bg-[#090a0d] px-6 md:px-16">
+      {/* Grid lines background */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute inset-0" style={{
+          backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)",
+          backgroundSize: "60px 60px",
+        }} />
+        <div className="absolute -left-32 top-1/3 h-[400px] w-[400px] rounded-full bg-orange-500/5 blur-[120px]" />
+        <div className="absolute -right-32 bottom-1/3 h-[350px] w-[350px] rounded-full bg-violet-500/5 blur-[120px]" />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-5xl">
+        <p className="text-[10px] uppercase tracking-[0.45em] text-white/45">Naufal Ananta / 2025</p>
+        <h1 className="mt-4 text-5xl font-black leading-[0.85] tracking-[-0.04em] text-white md:text-8xl">
+          BUILD
+          <br />
+          <span className="text-white/30">THE INVISIBLE</span>
+        </h1>
+        <p className="mt-6 max-w-md text-base leading-relaxed text-white/50 md:text-lg">
+          A software engineer exploring the space between systems, people, and machines.
+        </p>
+
+        <div className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {landmarks.map((lm) => (
+            <a
+              key={lm.label}
+              href={lm.href}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] px-5 py-4 transition-all hover:border-white/25 hover:bg-white/[0.06]"
+            >
+              <div className="absolute inset-0 opacity-0 transition-opacity group-hover:opacity-100" style={{ background: `radial-gradient(circle at 50% 50%, ${lm.color}11, transparent 70%)` }} />
+              <span className="relative text-sm font-bold uppercase tracking-[0.2em]" style={{ color: lm.color }}>{lm.label}</span>
+            </a>
+          ))}
+        </div>
+
+        <div className="mt-12 flex items-center gap-3 text-[10px] uppercase tracking-[0.25em] text-white/40">
+          <span className="rounded border border-white/15 px-2 py-1 text-white/50">Note</span>
+          <span>Enable WebGL in your browser for the full 3D experience</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Main Export ---------- */
+export function WorldExperience() {
+  const supported = useMemo(() => hasWebGL(), []);
+
+  return (
+    <section id="top" className="relative h-svh min-h-[620px] w-full overflow-hidden bg-[#090a0d]">
+      {supported ? <WorldHero /> : <StaticFallback />}
     </section>
   );
 }
