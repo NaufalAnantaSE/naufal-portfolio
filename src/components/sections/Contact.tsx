@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { Mail, ArrowUpRight } from "lucide-react";
+import { Mail, ArrowUpRight, FileText } from "lucide-react";
 import { Github, Linkedin, Instagram } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
@@ -14,10 +14,11 @@ const ContactOrbScene = dynamic(
 );
 
 const links = [
-  { icon: Mail, label: "Email", value: "Contact via GitHub", href: socials.email },
+  { icon: FileText, label: "Resume / CV", value: "Curriculum Vitae", href: socials.cv },
+  { icon: Mail, label: "Email", value: "anantanaufal250@gmail.com", href: socials.email },
   { icon: Github, label: "GitHub", value: "@NaufalAnantaSE", href: socials.github },
   { icon: Linkedin, label: "LinkedIn", value: "in/naufalananta", href: socials.linkedin },
-  { icon: Instagram, label: "Instagram", value: "@naufalananta", href: socials.instagram },
+  { icon: Instagram, label: "Instagram", value: "@naufal_ananta_", href: socials.instagram },
 ];
 
 export function Contact() {

@@ -55,6 +55,14 @@ export function Navbar() {
         </ul>
         <div className="flex items-center gap-3">
           <a
+            href={socials.cv}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-full bg-violet-600/30 border border-violet-500/40 px-4 py-1.5 text-sm font-medium text-violet-200 transition-all hover:bg-violet-600 hover:text-white"
+          >
+            CV
+          </a>
+          <a
             href={socials.github}
             target="_blank"
             rel="noopener noreferrer"
@@ -94,10 +102,18 @@ export function Navbar() {
               ))}
             </ul>
             <a
+              href={socials.cv}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex w-full items-center justify-center rounded-full bg-violet-600/40 border border-violet-500/40 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-violet-600"
+            >
+              View CV / Resume
+            </a>
+            <a
               href={socials.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-4 flex w-full items-center justify-center rounded-full bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
+              className="mt-2 flex w-full items-center justify-center rounded-full bg-white/10 px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-white/20"
             >
               GitHub
             </a>

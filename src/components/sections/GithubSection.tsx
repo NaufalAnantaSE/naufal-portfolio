@@ -6,41 +6,29 @@ import { Github } from "@/components/ui/icons";
 import { Reveal } from "@/components/ui/Reveal";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { socials, projects } from "@/lib/data";
-
-function seededRandom(seed: number) {
-  return () => {
-    seed = (seed * 16807) % 2147483647;
-    return (seed - 1) / 2147483646;
-  };
-}
+import githubData from "@/lib/github-contributions.json";
 
 const stats = [
-  { icon: BookOpen, label: "Repositories", value: "60+" },
-  { icon: Star, label: "Stars Earned", value: "120+" },
-  { icon: GitFork, label: "Forks", value: "45+" },
-  { icon: Users, label: "Followers", value: "80+" },
+  { icon: BookOpen, label: "Public Repositories", value: "64" },
+  { icon: Star, label: "Stars Earned", value: "62" },
+  { icon: GitFork, label: "Total Forks", value: "1" },
+  { icon: Users, label: "Followers", value: "31" },
 ];
 
 function ContributionGraph() {
-  const weeks = 52;
   const days = 7;
-
-  const cells = useMemo(() => {
-    // deterministic pseudo-random pattern
-    const out: number[] = [];
-    const rand = seededRandom(42);
-    for (let i = 0; i < weeks * days; i++) {
-      const r = rand();
-      out.push(r > 0.75 ? 3 : r > 0.55 ? 2 : r > 0.35 ? 1 : 0);
-    }
-    return out;
-  }, []);
+  const contributions = (githubData?.contributions || []) as {
+    date: string;
+    count: number;
+    level: number;
+  }[];
 
   const colors = [
     "bg-white/5",
     "bg-violet-900",
     "bg-violet-600",
     "bg-violet-400 shadow-[0_0_6px_rgba(167,139,250,0.6)]",
+    "bg-violet-300 shadow-[0_0_8px_rgba(196,181,253,0.8)]",
   ];
 
   return (
@@ -49,11 +37,11 @@ function ContributionGraph() {
         className="grid grid-flow-col gap-[3px]"
         style={{ gridTemplateRows: `repeat(${days}, 1fr)` }}
       >
-        {cells.map((level, i) => (
+        {contributions.map((c, i) => (
           <div
             key={i}
-            className={`h-[10px] w-[10px] rounded-[2px] ${colors[level]} transition-transform hover:scale-125`}
-            title={`${level * 2} contributions`}
+            className={`h-[10px] w-[10px] rounded-[2px] ${colors[Math.min(c.level, colors.length - 1)]} transition-transform hover:scale-125`}
+            title={`${c.count} contributions on ${c.date}`}
           />
         ))}
       </div>
@@ -111,9 +99,14 @@ export function GithubSection() {
 
       <Reveal delay={0.2}>
         <div className="glass mt-6 rounded-2xl p-6">
-          <h3 className="mb-4 text-sm font-semibold uppercase tracking-widest text-neutral-400">
-            Contribution Activity
-          </h3>
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="text-sm font-semibold uppercase tracking-widest text-neutral-400">
+              Contribution Activity (Real GitHub Data)
+            </h3>
+            <span className="text-xs text-neutral-400">
+              <strong className="text-white">{githubData?.total?.lastYear ?? 278}</strong> contributions in the last year
+            </span>
+          </div>
           <ContributionGraph />
         </div>
       </Reveal>

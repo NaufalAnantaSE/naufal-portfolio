@@ -13,84 +13,67 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    id: "rest-vs-grpc",
-    title: "REST vs gRPC",
-    subtitle: "Performance Comparative Analysis",
+    id: "londri-pos",
+    title: "Londri Management System",
+    subtitle: "Enterprise Laundry POS & Multi-Role Accrual Accounting",
     description:
-      "A deep-dive benchmark comparing REST and gRPC under real production-like load. NestJS microservices instrumented with Prometheus, visualized in Grafana, and hammered with K6 scenarios — measuring latency percentiles, throughput, and payload overhead.",
-    tech: ["NestJS", "gRPC", "Prometheus", "Grafana", "K6", "Docker"],
+      "Latest flagship project: Enterprise laundry operational ecosystem featuring role-based POS, strict cash vs accrual reconciliation, dynamic daily closing charts, automated thermal receipt printing, and staff attendance tracking.",
+    tech: ["Express.js", "Next.js", "PostgreSQL", "Prisma", "TailwindCSS"],
+    metrics: [
+      { label: "Reconciliation", value: "Accrual & Cash" },
+      { label: "Roles supported", value: "Staff & Admin" },
+      { label: "Target runtime", value: "Node :3000" },
+    ],
+    repo: "https://github.com/NaufalAnantaSE",
+    accent: "from-pink-500 via-rose-500 to-orange-400",
+    year: "2026",
+  },
+  {
+    id: "danabiz-qris",
+    title: "Dynamic QRIS EMVCo Gateway",
+    subtitle: "Static-to-Dynamic Merchant Payment Generator",
+    description:
+      "EMVCo-compliant payment generator parsing static merchant QRIS strings (DANA Bisnis), injecting custom transaction amounts (tag 54), recalculating CRC16-CCITT checksums, and providing both dual PNG streaming endpoints and a Vue 3 merchant dashboard.",
+    tech: ["Express.js", "Vue 3", "Vite", "EMVCo", "TailwindCSS", "Docker"],
+    metrics: [
+      { label: "Checksum logic", value: "CRC16" },
+      { label: "Spec standard", value: "EMVCo" },
+      { label: "Output format", value: "PNG & Web" },
+    ],
+    repo: "https://github.com/NaufalAnantaSE/dynamic-qirs-generator",
+    accent: "from-emerald-500 via-teal-500 to-cyan-500",
+    year: "2026",
+  },
+  {
+    id: "rest-vs-grpc",
+    title: "REST vs gRPC Benchmark",
+    subtitle: "High-Throughput Microservice Performance Analysis",
+    description:
+      "A quantitative comparative analysis evaluating REST vs gRPC protocols under synthetic peak traffic. NestJS microservices orchestrated with Docker Compose, instrumented with Prometheus and Grafana real-time metrics, hammered by K6 stress testing pipelines.",
+    tech: ["NestJS", "gRPC", "Protobuf", "Prometheus", "Grafana", "K6", "Docker"],
     metrics: [
       { label: "Throughput gain", value: "7.4×" },
       { label: "p99 latency", value: "12ms" },
       { label: "Test scenarios", value: "24" },
     ],
-    repo: "https://github.com/NaufalAnantaSE",
+    repo: "https://github.com/NaufalAnantaSE/performance-comparative-analysis",
     accent: "from-violet-600 via-purple-500 to-blue-500",
     year: "2024",
   },
   {
-    id: "devflow",
-    title: "DevFlow",
-    subtitle: "NestJS Developer Platform Backend",
-    description:
-      "A production-grade Q&A platform backend built with NestJS — modular architecture, JWT auth with refresh rotation, role-based access, Redis caching, and a cleanly versioned REST API. Designed as a reference implementation for scalable NestJS systems.",
-    tech: ["NestJS", "PostgreSQL", "Redis", "TypeORM", "JWT", "Docker"],
-    metrics: [
-      { label: "API endpoints", value: "40+" },
-      { label: "Test coverage", value: "85%" },
-      { label: "Response time", value: "<50ms" },
-    ],
-    repo: "https://github.com/NaufalAnantaSE",
-    accent: "from-blue-600 via-indigo-500 to-violet-500",
-    year: "2024",
-  },
-  {
-    id: "destination-api",
-    title: "Destination API",
-    subtitle: "Python Tourism Intelligence Service",
-    description:
-      "A FastAPI service powering destination discovery — geospatial queries, ML-based recommendations, and an async data pipeline. Containerized, documented with OpenAPI, and deployed with CI/CD automation.",
-    tech: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy", "Docker"],
-    metrics: [
-      { label: "Destinations", value: "1.2K+" },
-      { label: "Avg latency", value: "38ms" },
-      { label: "Uptime", value: "99.9%" },
-    ],
-    repo: "https://github.com/NaufalAnantaSE",
-    accent: "from-orange-500 via-amber-500 to-yellow-400",
-    year: "2023",
-  },
-  {
     id: "hanggar",
-    title: "Hanggar",
-    subtitle: "Aircraft Hangar Management System",
+    title: "Hanggar Management System",
+    subtitle: "Aircraft Operations & Movement Tracking",
     description:
-      "End-to-end management system for aircraft hangar operations — scheduling, maintenance tracking, inventory and reporting. Built with a relational-first design and a dashboard that turns raw operational data into decisions.",
-    tech: ["Laravel", "MySQL", "Livewire", "TailwindCSS"],
+      "Full-cycle management platform for aircraft hangar logistics — flight vehicle movement tracking, maintenance logging, technician assignment, and operational report generation with relational database modeling.",
+    tech: ["TypeScript", "Next.js", "PostgreSQL", "Prisma", "TailwindCSS"],
     metrics: [
       { label: "Modules", value: "12" },
-      { label: "Records managed", value: "10K+" },
+      { label: "Audit trail", value: "100%" },
       { label: "Manual work cut", value: "60%" },
     ],
-    repo: "https://github.com/NaufalAnantaSE",
-    accent: "from-emerald-500 via-teal-500 to-cyan-500",
-    year: "2023",
-  },
-  {
-    id: "portfolio-backend",
-    title: "Naufal Ananta Portfolio",
-    subtitle: "Interactive Portfolio Experience",
-    description:
-      "An immersive portfolio experience for Naufal Ananta, combining editorial typography, motion, 3D scenes, and a clear view into backend, AI, and cloud work.",
-    tech: ["NestJS", "PostgreSQL", "Docker", "AWS", "Nginx"],
-    metrics: [
-      { label: "Cold start", value: "<200ms" },
-      { label: "Cache hit rate", value: "94%" },
-      { label: "Deploy time", value: "45s" },
-    ],
-    repo: "https://astro-portfolio-git-main-naufalanantases-projects.vercel.app/",
-    demo: "https://astro-portfolio-git-main-naufalanantases-projects.vercel.app/",
-    accent: "from-pink-500 via-rose-500 to-orange-400",
+    repo: "https://github.com/NaufalAnantaSE/Sistem-Pendataan-Keluar-Masuk-Hanggar",
+    accent: "from-blue-600 via-indigo-500 to-violet-500",
     year: "2024",
   },
 ];
@@ -143,43 +126,38 @@ export const timeline = [
     year: "2022",
     title: "Started Software Engineering",
     description:
-      "Began the journey at Telkom University Purwokerto — first lines of code, first bugs, first all-nighters.",
-  },
-  {
-    year: "2022",
-    title: "Learned React",
-    description:
-      "Fell in love with component-driven UI. Built SPAs, learned state management and the modern frontend ecosystem.",
+      "Entered Telkom University Purwokerto — focused on algorithms, software architecture, and core computer science fundamentals.",
   },
   {
     year: "2023",
-    title: "Learned NestJS",
+    title: "Backend & Microservices Focus",
     description:
-      "Discovered the backend rabbit hole. Dependency injection, modular architecture, and TypeScript end-to-end.",
-  },
-  {
-    year: "2023",
-    title: "Built Microservices",
-    description:
-      "Designed distributed systems — message queues, API gateways, service discovery, and the art of graceful failure.",
+      "Specialized in backend ecosystems (NestJS, Express, Python FastAPI), relational data modeling, and distributed system communication.",
   },
   {
     year: "2024",
-    title: "Started AI Projects",
+    title: "Performance Benchmarking & Microservices",
     description:
-      "Integrated LLMs and ML pipelines into real products. RAG systems, embeddings, and AI-powered backends.",
+      "Conducted extensive gRPC vs REST load tests (Prometheus/Grafana/K6) and engineered the Hanggar aircraft operations management system.",
   },
   {
-    year: "2024",
-    title: "Open Source Contributions",
+    year: "2025",
+    title: "Industry Internship at PT Ardata Digital Asia",
     description:
-      "Giving back to the ecosystem — 60+ public repositories, contributions, and tools built in the open.",
+      "Web Developer Intern contributing to the Eduline platform backend, resolving critical mobile app crashes and optimizing database query pipelines.",
+  },
+  {
+    year: "2026",
+    title: "Bachelor of Software Engineering & Production Fintech",
+    description:
+      "Graduated with GPA 3.52/4.00 (149 credits, Thesis Grade A). Built flagship systems: Londri Multi-Role Management & EMVCo Dynamic QRIS Gateway.",
   },
 ];
 
 export const socials = {
-  email: "https://github.com/NaufalAnantaSE",
+  email: "mailto:anantanaufal250@gmail.com",
   github: "https://github.com/NaufalAnantaSE",
   linkedin: "https://www.linkedin.com/in/naufalananta",
-  instagram: "https://www.instagram.com/naufalananta",
+  instagram: "https://www.instagram.com/naufal_ananta_",
+  cv: "https://drive.google.com/file/d/1kBkJSzYI52xX73r9ETeRrCDW5wNvKul7/view?usp=drive_link",
 };

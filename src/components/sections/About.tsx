@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { SplitText } from "@/components/ui/SplitText";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
+import { socials } from "@/lib/data";
 
 const AboutAssetsScene = dynamic(
   () => import("@/components/three/AboutAssetsScene"),
@@ -37,17 +38,16 @@ export function About() {
 
           <Reveal delay={0.15}>
             <p className="mt-8 text-lg font-light leading-relaxed text-neutral-400">
-              I&apos;m Naufal Ananta — a software engineer from Indonesia,
-              currently studying at{" "}
-              <span className="text-white">Telkom University Purwokerto</span>.
-              I live in the layer users never see: the APIs, the queues, the
-              databases, the pipelines — and I make them fast, resilient, and
-              elegant.
+              I&apos;m Naufal Ananta — a Software Engineer from Indonesia with a
+              Bachelor of Software Engineering (S.T.) from{" "}
+              <span className="text-white">Telkom University Purwokerto</span> (GPA 3.52/4.00).
+              I specialize in the core engine layer: scalable APIs, microservice protocols,
+              event queues, and automated DevOps infrastructure.
             </p>
             <p className="mt-4 text-lg font-light leading-relaxed text-neutral-400">
-              From benchmarking gRPC against REST under brutal load, to wiring
-              AI into production backends — I build systems that scale and
-              share what I learn in the open.
+              From quantitatively benchmarking gRPC vs REST under synthetic peak load, to
+              engineering EMVCo-compliant dynamic QRIS payment gateways and AI tooling —
+              I design resilient software backed by real empirical metrics.
             </p>
           </Reveal>
 
@@ -62,14 +62,25 @@ export function About() {
                 </span>
               ))}
             </div>
+            <div className="mt-6">
+              <a
+                href={socials.cv}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-violet-600/20 border border-violet-500/40 px-5 py-2.5 text-sm font-semibold text-violet-300 transition-all hover:bg-violet-600 hover:text-white"
+              >
+                <span>View Full Curriculum Vitae (PDF)</span>
+                <span aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
           </Reveal>
 
           <Reveal delay={0.4}>
             <div className="mt-10 grid grid-cols-3 gap-4">
               {[
-                { v: "60+", l: "Repositories" },
-                { v: "3+", l: "Years Coding" },
-                { v: "∞", l: "Curiosity" },
+                { v: "64", l: "Repositories" },
+                { v: "62", l: "Stars Earned" },
+                { v: "278", l: "Contributions" },
               ].map((s) => (
                 <SpotlightCard
                   key={s.l}
