@@ -39,10 +39,11 @@ export function About() {
           <Reveal delay={0.15}>
             <p className="mt-8 text-lg font-light leading-relaxed text-neutral-400">
               I&apos;m Naufal Ananta — a Software Engineer from Indonesia with a
-              Bachelor of Software Engineering (S.T.) from{" "}
-              <span className="text-white">Telkom University Purwokerto</span> (GPA 3.52/4.00).
-              I specialize in the core engine layer: scalable APIs, microservice protocols,
-              event queues, and automated DevOps infrastructure.
+              Bachelor of Software Engineering (S.Kom.) from{" "}
+              <span className="text-white">Telkom University Purwokerto</span>{" "}
+              (GPA 3.52/4.00). I specialize in the core engine layer: scalable
+              APIs, microservice protocols, event queues, and automated DevOps
+              infrastructure.
             </p>
             <p className="mt-4 text-lg font-light leading-relaxed text-neutral-400">
               From quantitatively benchmarking gRPC vs REST under synthetic peak load, to
